@@ -9,7 +9,7 @@ template <typename T> struct Node {
 template <typename T> struct Lockless_Node {
   T data;
   std::atomic<Lockless_Node *> next;
-}
+};
 } // namespace tsfqueue::__utils
 
 namespace tsfq::__impl {

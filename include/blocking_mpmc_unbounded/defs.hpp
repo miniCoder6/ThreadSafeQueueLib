@@ -27,6 +27,12 @@ private:
   // node *tail;
   // std::condition_variable cond;
 
+  std::mutex head_mutex;
+  std::unique_ptr<node> head;
+  std::mutex tail_mutex;
+  node *tail;
+  std::condition_variable cond;
+
   // Description of private members :
   // 1. std::mutex head_mutex is used to prevent contention at the head pointer
   // This mutex is acquired when you are modifying std::unique_ptr<node> head to
@@ -74,6 +80,31 @@ public:
   // can use this in push then)
   // 9. Add size() function
   // 10. Any more suggestions ??
+
+  blocking_mpmc_unbounded() {
+    std::unique_ptr<node> stub(new node);
+    head = std::move(stub);
+    tail = head.get();
+  }
+
+  void push(T value);
+
+  void wait_and_pop(T &value);
+
+  std::shared_ptr<T> wait_and_pop();
+
+  bool try_pop(T &value);
+
+  std::shared_ptr<T> try_pop();
+
+  bool empty();
+
+  node *get_tail();
+
+  std::unique_ptr<node> wait_and_get();
+
+  std::unique_ptr<node> try_get();
+
 };
 } // namespace tsfqueue::__impl
 
