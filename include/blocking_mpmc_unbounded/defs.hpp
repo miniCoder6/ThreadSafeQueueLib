@@ -61,6 +61,9 @@ private:
   // particular instant std::unique_ptr wait_and_get() : Helper function to
   // blocking wait on unique_ptr of head after popping std::unique_ptr try_get()
   // : Helper function to try to get unique_ptr of head after popping
+  node*get_tail();
+  std::unique_ptr<node> try_get();
+  std::unique_ptr<node> wait_and_get();
 
 public:
   // Public member functions :
@@ -99,11 +102,12 @@ public:
 
   bool empty();
 
-  node *get_tail();
+  // node *get_tail();
 
-  std::unique_ptr<node> wait_and_get();
+  // std::unique_ptr<node> wait_and_get();
 
-  std::unique_ptr<node> try_get();
+  // std::unique_ptr<node> try_get();
+  size_t size();
 
 };
 } // namespace tsfqueue::__impl
