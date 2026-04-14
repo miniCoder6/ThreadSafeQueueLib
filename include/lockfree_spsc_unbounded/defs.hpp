@@ -26,6 +26,9 @@ template <typename T> class lockfree_spsc_unbounded {
   // node. We handle the empty queue gracefully as per the pop type.
 private:
   using node = tsfqueue::__utils::Lockless_Node<T>;
+  alignas(64) std::atomic<node*> head;
+  alignas(64) std::atomic<node*> tail;
+  std::atomic<size_t> sz{0};
 
   // Add the private members :
   // 1. node* head;
@@ -53,6 +56,29 @@ public:
   // 8. Add size() function
   // 9. Any more suggestions ??
   // 10. Why no shared_ptr ?? [Reason this]
+
+  lockfree_spsc_unbounded() {
+    node *stub = new node;
+    head.store(stub);
+    tail.store(stub);
+  }
+
+  ~lockfree_spsc_unbounded() {
+      node* curr = head.load();
+      while (curr) {
+          node* next = curr->next.load();
+          delete curr;
+          curr = next;
+      }
+  }
+
+  void push(T value);
+  void wait_and_pop(T &value);
+  bool try_pop(T &value);
+  bool empty();
+  bool peek(T &value);
+  size_t size();
+
 };
 } // namespace tsfqueue::__impl
 
