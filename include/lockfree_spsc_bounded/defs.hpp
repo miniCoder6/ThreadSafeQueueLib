@@ -28,6 +28,15 @@ private:
   // T arr[];
   // static constexpr size_t capacity;
 
+  alignas(64) std::atomic<size_t> head;
+  alignas(64) std::atomic<size_t> tail;
+  alignas(64) size_t head_cache;
+  alignas(64) size_t tail_cache;
+
+  T arr[Capacity + 1];
+  static constexpr size_t capacity = Capacity + 1;
+
+
   // Description of private members :
   // 1. std::atomic<size_t> head is the atomic head pointer
   // 2. std::atomic<size_t> tail is the atomic tail pointer
@@ -37,6 +46,11 @@ private:
   // Cache align 1-5.
   // 6. static constexpr size_t capcity to store the capcity for operations in
   // functions Why static ?? Why constexpr ?? [Reason this]
+
+  static_assert(Capacity > 0);
+  static_assert(std::is_move_constructible_v<T>, "T must be move constructible");
+  static_assert(std::is_move_assignable_v<T>, "T must be move assignable");
+  static_assert(std::is_default_constructible_v<T>);
 
 public:
   // Public Member functions :
@@ -56,6 +70,26 @@ public:
   // 9. Add size() function
   // 10. Any more suggestions ??
   // 11. Why no shared_ptr ?? [Reason this]
+
+  lockfree_spsc_bounded() : head(0), tail(0), head_cache(0), tail_cache(0) {}
+  ~lockfree_spsc_bounded() = default;
+
+  void wait_and_push(T value);
+  bool try_push(T value);
+
+  void wait_and_pop(T &value);
+  bool try_pop(T &value);
+
+  bool peek(T &value);
+
+  bool empty(void);
+
+  size_t size(void);
+
+  template <typename... Args> bool try_emplace(Args&&... args);
+
+  template <typename... Args> void wait_and_emplace(Args&&... args);
+  
 };
 } // namespace tsfqueue::__impl
 
