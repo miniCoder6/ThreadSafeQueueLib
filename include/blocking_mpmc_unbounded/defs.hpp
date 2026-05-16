@@ -101,12 +101,7 @@ public:
   std::shared_ptr<T> try_pop();
 
   bool empty();
-
-  // node *get_tail();
-
-  // std::unique_ptr<node> wait_and_get();
-
-  // std::unique_ptr<node> try_get();
+  
   size_t size();
 
 };
