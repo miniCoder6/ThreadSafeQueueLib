@@ -7,19 +7,7 @@ template <typename T>
 using queue = tsfqueue::__impl::lockfree_mpsc_unbounded<T>;
 
 template <typename T> void queue<T>::push(T value) {
-    node* new_node = new node();
-
-    new_node->next.store(nullptr, std::memory_order_relaxed);
-
-    // exchange serializes multiple producers
-    // release store publishes fully initialized node to consumer
-    node* prev = tail.exchange(new_node, std::memory_order_acq_rel);
-
-    prev->data = std::move(value);
-
-    prev->next.store(new_node, std::memory_order_release);
-
-    sz.fetch_add(1, std::memory_order_relaxed);
+    emplace_back(std::move(value));
 }
 
 template <typename T>
@@ -28,6 +16,8 @@ template <typename... Args> void queue<T>::emplace_back(Args&&... args){
 
     new_node->next.store(nullptr, std::memory_order_relaxed);
 
+    // exchange serializes multiple producers
+    // release store publishes fully initialized node to consumer
     // Atomically claim old tail
     node* prev = tail.exchange(new_node, std::memory_order_acq_rel);
 
@@ -104,3 +94,5 @@ template <typename T> size_t queue<T>::size(){
 // can use this in push then)
 // 3. Add size() function
 // 4. Any more suggestions ??
+
+// head need not be atomic as there is only one consumer
