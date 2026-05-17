@@ -4,21 +4,18 @@
 #include "defs.hpp"
 
 template <typename T, size_t Capacity>
-using queue = tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>;
-
-template <typename T, size_t Capacity>
-void queue<T, Capacity>::wait_and_push(T value) {
+void tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::wait_and_push(T value) {
     wait_and_emplace(std::move(value));
 }
 
 template <typename T, size_t Capacity>
-bool queue<T, Capacity>::try_push(T value) {
+bool tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::try_push(T value) {
     return try_emplace(std::move(value));
 }
 
 template <typename T, size_t Capacity>
 template <typename... Args>
-bool queue<T, Capacity>::try_emplace(Args&&... args) {
+bool tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::try_emplace(Args&&... args) {
     size_t current_tail = tail.load(std::memory_order_relaxed);
     size_t next_tail = (current_tail + 1) % capacity;
 
@@ -39,7 +36,7 @@ bool queue<T, Capacity>::try_emplace(Args&&... args) {
 
 template <typename T, size_t Capacity>
 template <typename... Args>
-void queue<T, Capacity>::wait_and_emplace(Args&&... args) {
+void tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::wait_and_emplace(Args&&... args) {
     while (true) {
         size_t current_tail = tail.load(std::memory_order_relaxed);
         size_t next_tail = (current_tail + 1) % capacity;
@@ -61,7 +58,7 @@ void queue<T, Capacity>::wait_and_emplace(Args&&... args) {
 }
 
 template <typename T, size_t Capacity>
-bool queue<T, Capacity>::try_pop(T &value) {
+bool tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::try_pop(T &value) {
     size_t current_head = head.load(std::memory_order_relaxed);
 
     if (current_head == tail_cache) {
@@ -77,7 +74,7 @@ bool queue<T, Capacity>::try_pop(T &value) {
 }
 
 template <typename T, size_t Capacity>
-void queue<T, Capacity>::wait_and_pop(T &value) {
+void tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::wait_and_pop(T &value) {
     while (true) {
         size_t current_head = head.load(std::memory_order_relaxed);
 
@@ -95,7 +92,7 @@ void queue<T, Capacity>::wait_and_pop(T &value) {
 }
 
 template <typename T, size_t Capacity>
-bool queue<T, Capacity>::peek(T &value) {
+bool tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::peek(T &value) {
     size_t current_head = head.load(std::memory_order_relaxed);
 
     if (current_head == tail_cache) {
@@ -110,14 +107,14 @@ bool queue<T, Capacity>::peek(T &value) {
 }
 
 template <typename T, size_t Capacity>
-bool queue<T, Capacity>::empty() {
+bool tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::empty() {
     // Approximate, non-linearizable check
     // Between reads, producer/consumer may modify queue
     return head.load(std::memory_order_relaxed) == tail.load(std::memory_order_relaxed);
 }
 
 template <typename T, size_t Capacity>
-size_t queue<T, Capacity>::size() {
+size_t tsfqueue::__impl::lockfree_spsc_bounded<T, Capacity>::size() {
     size_t current_head = head.load(std::memory_order_relaxed);
     size_t current_tail = tail.load(std::memory_order_relaxed);
     return (current_tail + capacity - current_head) % capacity;

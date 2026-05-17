@@ -3,15 +3,13 @@
 
 #include "defs.hpp"
 
-template <typename T>
-using queue = tsfqueue::__impl::lockfree_mpsc_unbounded<T>;
 
-template <typename T> void queue<T>::push(T value) {
+template <typename T> void tsfqueue::__impl::lockfree_mpsc_unbounded<T>::push(T value) {
     emplace_back(std::move(value));
 }
 
 template <typename T>
-template <typename... Args> void queue<T>::emplace_back(Args&&... args){
+template <typename... Args> void tsfqueue::__impl::lockfree_mpsc_unbounded<T>::emplace_back(Args&&... args){
     node* new_node = new node();
 
     new_node->next.store(nullptr, std::memory_order_relaxed);
@@ -30,7 +28,7 @@ template <typename... Args> void queue<T>::emplace_back(Args&&... args){
     sz.fetch_add(1, std::memory_order_relaxed);
 }
 
-template <typename T> bool queue<T>::try_pop(T &value) {
+template <typename T> bool tsfqueue::__impl::lockfree_mpsc_unbounded<T>::try_pop(T &value) {
     node *curr_head = head.load(std::memory_order_relaxed);
     node *next = curr_head->next.load(std::memory_order_acquire);
 
@@ -46,7 +44,7 @@ template <typename T> bool queue<T>::try_pop(T &value) {
     return true;
 }
 
-template <typename T> void queue<T>::wait_and_pop(T &value) {
+template <typename T> void tsfqueue::__impl::lockfree_mpsc_unbounded<T>::wait_and_pop(T &value) {
     node *curr_head;
     node *next;
 
@@ -67,7 +65,7 @@ template <typename T> void queue<T>::wait_and_pop(T &value) {
     sz.fetch_sub(1, std::memory_order_relaxed);
 }
 
-template <typename T> bool queue<T>::peek(T &value) {
+template <typename T> bool tsfqueue::__impl::lockfree_mpsc_unbounded<T>::peek(T &value) {
     node *curr_head = head.load(std::memory_order_relaxed);
     node *next = curr_head->next.load(std::memory_order_acquire);
 
@@ -77,13 +75,13 @@ template <typename T> bool queue<T>::peek(T &value) {
     return true;
 }
 
-template <typename T> bool queue<T>::empty(void) {
+template <typename T> bool tsfqueue::__impl::lockfree_mpsc_unbounded<T>::empty(void) {
     node *curr_head = head.load(std::memory_order_relaxed);
     node *next = curr_head->next.load(std::memory_order_acquire);
     return next == nullptr;
 }
 
-template <typename T> size_t queue<T>::size(){
+template <typename T> size_t tsfqueue::__impl::lockfree_mpsc_unbounded<T>::size(){
     return sz.load(std::memory_order_relaxed);
 }
 

@@ -73,6 +73,10 @@ public:
   }
 
   void push(T value);
+
+  template <typename... Args>
+  void emplace_back(Args &&...args);
+
   void wait_and_pop(T &value);
   bool try_pop(T &value);
   bool empty();
