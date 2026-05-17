@@ -1,0 +1,46 @@
+# CMake and Build Artifacts
+build/
+out/
+bin/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
+install_manifest.txt
+compile_commands.json
+
+# Visual Studio & Windows Extensions
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.pdb
+*.obj
+*.exe
+*.manifest
+*.lib
+*.dll
+*.exp
+*.ilk
+*.idb
+
+# Python (for plotting scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# Benchmark local outputs & data
+*.csv
+*results.json
+results_all.json
+throughput_plot.png
+throughput_comparison.png
+throughput_comparison.html
+benchmarking/results/
