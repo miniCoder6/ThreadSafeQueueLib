@@ -11,7 +11,8 @@ The benchmark suite currently aggregates the completed queue implementations int
   - Lock-free SPSC bounded queue (`lockfree_spsc_bounded`)
 - **MPSC (Multiple Producers, Single Consumer):**
   - Lock-free MPSC unbounded queue (`lockfree_mpsc_unbounded`)
-- **Blocking Queues:**
+- **MPMC (Multiple Producers, Multiple Consumers):**
+  - Lock-free MPMC bounded queue (`lockfree_mpmc_bounded`)
   - Blocking MPMC unbounded queue (`blocking_mpmc_unbounded`)
 
 ## Prerequisites
@@ -68,12 +69,16 @@ For more options, you can use `./queue_benchmarks --help`.
 
 ## Generating Plots (Automated)
 We have provided an automated pipeline to handle building, collecting results to JSON, parsing stats into a CSV, and rendering plots automatically via Python. 
-Make sure you have mapped your python environment, then run:
+Make sure you have mapped your python environment, then run from the root directory (or anywhere):
 
 ```bash
-python run_benchmarks.py
+python benchmarking/run_benchmarks.py
 ```
-This automatically updates `results_all.json`, processes raw throughput stats to `results_all.csv`, and produces throughput comparison PNG visualizations in `results/throughput.png`.
+This script automatically:
+1. Navigates to the build directory and configures/builds CMake.
+2. Executes Google Benchmark, saving results to `benchmarking/results/results_all.json`.
+3. Calls `plot.py`, which generates CSV summaries inside the `benchmarking/results/` folder.
+4. Generates performance chart visualisations in the `benchmarking/results/` folder.
 
 ## Benchmarking Methodology
 
@@ -104,6 +109,10 @@ BM_MPSC/1/real_time            348759500 ns        0.000 ns            2 items_p
 BM_MPSC/2/real_time            603713400 ns        0.000 ns            1 items_per_second=6.62566M/s ops/sec=6.62566M/s
 BM_MPSC/4/real_time           1153064000 ns        0.000 ns            1 items_per_second=6.93804M/s ops/sec=6.93804M/s
 BM_MPSC/8/real_time           2324944000 ns        0.000 ns            1 items_per_second=6.88189M/s ops/sec=6.88189M/s
+BM_LOCKFREE_MPMC_BOUNDED/2/real_time    31370759 ns        0.000 ns           22 items_per_second=31.8768M/s ops/sec=31.8768M/s
+BM_LOCKFREE_MPMC_BOUNDED/4/real_time   203394600 ns        0.000 ns            4 items_per_second=9.8331M/s ops/sec=9.8331M/s
+BM_LOCKFREE_MPMC_BOUNDED/8/real_time   472495700 ns        0.000 ns            2 items_per_second=8.46569M/s ops/sec=8.46569M/s
+BM_LOCKFREE_MPMC_BOUNDED/16/real_time 1389355600 ns        0.000 ns            1 items_per_second=5.75807M/s ops/sec=5.75807M/s
 BM_BLOCKING_MPMC/2/real_time   316236500 ns        0.000 ns            2 items_per_second=3.16219M/s ops/sec=3.16219M/s
 BM_BLOCKING_MPMC/4/real_time   816578600 ns        0.000 ns            1 items_per_second=2.44924M/s ops/sec=2.44924M/s
 BM_BLOCKING_MPMC/8/real_time  2578731000 ns        0.000 ns            1 items_per_second=1.55115M/s ops/sec=1.55115M/s
