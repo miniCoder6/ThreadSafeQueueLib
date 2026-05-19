@@ -10,7 +10,6 @@ The library provides various queue variants nested within the `tsfqueue::__impl`
 | :--- | :--- | :--- | :--- |
 | **SPSC** (1:1) | Bounded | `lockfree_spsc_bounded<T, Cap>` | Compile-time ring buffer, lock-free, zero runtime allocation, optimal cache proximity. |
 | **SPSC** (1:1) | Unbounded | `lockfree_spsc_unbounded<T>` | Lock-free linked-list architecture allowing dynamic scaling. |
-| **SPSC** (1:1) | FAST Unbounded | `FAST_lockfree_spsc_unbounded<T>` | Highly optimized unbounded list leveraging internal node block-caching. |
 | **MPSC** (N:1) | Unbounded | `lockfree_mpsc_unbounded<T>` | Multiplexed consumer design, waits on contested writes from multiple producers. |
 | **MPMC** (N:N) | Bounded | `lockfree_mpmc_bounded<T, Cap>` | Heavily contended lock-free array handling massive concurrency. |
 | **MPMC** (N:N) | Unbounded | `blocking_mpmc_unbounded<T>` | Mutex + CV backed, yielding logical threads to OS reducing CPU spine cycles. |
