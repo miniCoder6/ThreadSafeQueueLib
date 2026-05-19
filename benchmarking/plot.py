@@ -32,12 +32,10 @@ def main():
 
     df = pd.DataFrame(records)
     
-    if len(df) == 0:
-        print("No valid benchmark data found.")
-        sys.exit(0)
-
+    os.makedirs('results', exist_ok=True)
+    
     # Export to CSV
-    csv_file = "results_all.csv"
+    csv_file = os.path.join('results', 'results_all.csv')
     df.to_csv(csv_file, index=False)
     print(f"Exported metrics to {csv_file}")
 

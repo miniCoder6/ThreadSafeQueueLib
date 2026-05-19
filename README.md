@@ -31,7 +31,11 @@ The pipeline isolates pure structural concurrency bounds by:
 - Counteracting false sharing in shared benchmark metrics via manual `alignas(64)` payload padding.
 
 ### Running Benchmarks
-An automated test runner drives CMake builds, runtime stat extraction (to JSON/CSV), and Matplotlib charting pipeline automatically. You can invoke it by running the `run_benchmarks.py` script locally inside the `benchmarking` directory. 
+An automated test runner drives CMake builds, runtime stat extraction (to JSON/CSV), and Matplotlib charting pipeline automatically. You can invoke it easily from the project root by running:
+
+```bash
+python benchmarking/run_benchmarks.py
+```
 
 *Results output visually and textually directly into the `benchmarking/results/` folder.*
 
@@ -49,6 +53,10 @@ BM_MPSC/1/real_time            348759500 ns        0.000 ns            2 items_p
 BM_MPSC/2/real_time            603713400 ns        0.000 ns            1 items_per_second=6.62566M/s ops/sec=6.62566M/s
 BM_MPSC/4/real_time           1153064000 ns        0.000 ns            1 items_per_second=6.93804M/s ops/sec=6.93804M/s
 BM_MPSC/8/real_time           2324944000 ns        0.000 ns            1 items_per_second=6.88189M/s ops/sec=6.88189M/s
+BM_LOCKFREE_MPMC_BOUNDED/2/real_time    31370759 ns        0.000 ns           22 items_per_second=31.8768M/s ops/sec=31.8768M/s
+BM_LOCKFREE_MPMC_BOUNDED/4/real_time   203394600 ns        0.000 ns            4 items_per_second=9.8331M/s ops/sec=9.8331M/s
+BM_LOCKFREE_MPMC_BOUNDED/8/real_time   472495700 ns        0.000 ns            2 items_per_second=8.46569M/s ops/sec=8.46569M/s
+BM_LOCKFREE_MPMC_BOUNDED/16/real_time 1389355600 ns        0.000 ns            1 items_per_second=5.75807M/s ops/sec=5.75807M/s
 BM_BLOCKING_MPMC/2/real_time   316236500 ns        0.000 ns            2 items_per_second=3.16219M/s ops/sec=3.16219M/s
 BM_BLOCKING_MPMC/4/real_time   816578600 ns        0.000 ns            1 items_per_second=2.44924M/s ops/sec=2.44924M/s
 BM_BLOCKING_MPMC/8/real_time  2578731000 ns        0.000 ns            1 items_per_second=1.55115M/s ops/sec=1.55115M/s
