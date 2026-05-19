@@ -43,25 +43,22 @@ python benchmarking/run_benchmarks.py
 
 Here is a sample result (on a system with 16 logical cores) compiled with `Release` optimizations:
 
-```text
-----------------------------------------------------------------------------------------
-Benchmark                              Time             CPU   Iterations UserCounters...
-----------------------------------------------------------------------------------------
-BM_SPSC_UNBOUNDED/real_time   1552548400 ns        0.000 ns            1 items_per_second=6.44102M/s ops/sec=6.44102M/s
-BM_SPSC_BOUNDED/real_time       71895508 ns        0.000 ns           12 items_per_second=139.091M/s ops/sec=139.091M/s
-BM_MPSC/1/real_time            348759500 ns        0.000 ns            2 items_per_second=5.73461M/s ops/sec=5.73461M/s
-BM_MPSC/2/real_time            603713400 ns        0.000 ns            1 items_per_second=6.62566M/s ops/sec=6.62566M/s
-BM_MPSC/4/real_time           1153064000 ns        0.000 ns            1 items_per_second=6.93804M/s ops/sec=6.93804M/s
-BM_MPSC/8/real_time           2324944000 ns        0.000 ns            1 items_per_second=6.88189M/s ops/sec=6.88189M/s
-BM_LOCKFREE_MPMC_BOUNDED/2/real_time    31370759 ns        0.000 ns           22 items_per_second=31.8768M/s ops/sec=31.8768M/s
-BM_LOCKFREE_MPMC_BOUNDED/4/real_time   203394600 ns        0.000 ns            4 items_per_second=9.8331M/s ops/sec=9.8331M/s
-BM_LOCKFREE_MPMC_BOUNDED/8/real_time   472495700 ns        0.000 ns            2 items_per_second=8.46569M/s ops/sec=8.46569M/s
-BM_LOCKFREE_MPMC_BOUNDED/16/real_time 1389355600 ns        0.000 ns            1 items_per_second=5.75807M/s ops/sec=5.75807M/s
-BM_BLOCKING_MPMC/2/real_time   316236500 ns        0.000 ns            2 items_per_second=3.16219M/s ops/sec=3.16219M/s
-BM_BLOCKING_MPMC/4/real_time   816578600 ns        0.000 ns            1 items_per_second=2.44924M/s ops/sec=2.44924M/s
-BM_BLOCKING_MPMC/8/real_time  2578731000 ns        0.000 ns            1 items_per_second=1.55115M/s ops/sec=1.55115M/s
-BM_BLOCKING_MPMC/16/real_time 7226145200 ns        0.000 ns            1 items_per_second=1.10709M/s ops/sec=1.10709M/s
-```
+| Benchmark | Time (ns) | CPU (ns) | Iterations | Items/sec | Ops/sec |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| `BM_SPSC_UNBOUNDED/real_time` | 1552548400 | 0.000 | 1 | 6.44102M/s | 6.44102M/s |
+| `BM_SPSC_BOUNDED/real_time` | 71895508 | 0.000 | 12 | 139.091M/s | 139.091M/s |
+| `BM_MPSC/1/real_time` | 348759500 | 0.000 | 2 | 5.73461M/s | 5.73461M/s |
+| `BM_MPSC/2/real_time` | 603713400 | 0.000 | 1 | 6.62566M/s | 6.62566M/s |
+| `BM_MPSC/4/real_time` | 1153064000 | 0.000 | 1 | 6.93804M/s | 6.93804M/s |
+| `BM_MPSC/8/real_time` | 2324944000 | 0.000 | 1 | 6.88189M/s | 6.88189M/s |
+| `BM_LOCKFREE_MPMC_BOUNDED/2/real_time` | 31370759 | 0.000 | 22 | 31.8768M/s | 31.8768M/s |
+| `BM_LOCKFREE_MPMC_BOUNDED/4/real_time` | 203394600 | 0.000 | 4 | 9.8331M/s | 9.8331M/s |
+| `BM_LOCKFREE_MPMC_BOUNDED/8/real_time` | 472495700 | 0.000 | 2 | 8.46569M/s | 8.46569M/s |
+| `BM_LOCKFREE_MPMC_BOUNDED/16/real_time` | 1389355600 | 0.000 | 1 | 5.75807M/s | 5.75807M/s |
+| `BM_BLOCKING_MPMC/2/real_time` | 316236500 | 0.000 | 2 | 3.16219M/s | 3.16219M/s |
+| `BM_BLOCKING_MPMC/4/real_time` | 816578600 | 0.000 | 1 | 2.44924M/s | 2.44924M/s |
+| `BM_BLOCKING_MPMC/8/real_time` | 2578731000 | 0.000 | 1 | 1.55115M/s | 1.55115M/s |
+| `BM_BLOCKING_MPMC/16/real_time` | 7226145200 | 0.000 | 1 | 1.10709M/s | 1.10709M/s |
 
 ### Performance Analysis & Insights
 
