@@ -1,5 +1,6 @@
 # ThreadsafeQueueLib-CodingClubIITG
 
+High-performance modern C++ thread-safe queue library featuring lock-free and blocking queue variants with advanced concurrency optimizations and Google Benchmark analysis.
 ThreadsafeQueueLib provides high-performance wait-free, lock-free and blocking queues for C++20. It supports SPSC, MPSC, and MPMC with bounded or unbounded modes using policy-based templates for flexible, efficient, thread-safe data passing.
 
 ## Features & Supported Queues
